@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bangumi 反向好友导航
 // @namespace    https://github.com/imagebuilder1837/bangumi-reverse-friends-nav
-// @version      0.1.0
+// @version      0.1.1
 // @description  在用户页个人导航中增加“反向好友”入口。
 // @author       imagebuilder1837
 // @match        https://bgm.tv/user/*
