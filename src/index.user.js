@@ -97,7 +97,12 @@
   }
 
   function correctFocus(friendsTab, reverseTab, pathname) {
-    if (typeof pathname !== "string") return;
+    if (
+      typeof pathname !== "string" ||
+      !classNames(friendsTab).includes("focus")
+    ) {
+      return;
+    }
 
     const isFriendsPage = /^\/user\/[^/]+\/friends\/?$/.test(pathname);
     const isReverseFriendsPage = /^\/user\/[^/]+\/rev_friends\/?$/.test(

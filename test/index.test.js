@@ -260,6 +260,29 @@ test("does not change focus on ordinary user and collection pages", () => {
   }
 });
 
+test("leaves focus alone when the native friends tab is not highlighted", () => {
+  const page = createPage({ pathname: "/user/foo/rev_friends" });
+  page.friendsTab.className = "native";
+  page.afterTab.className = "focus other";
+
+  const reverseTab = ensureReverseFriendsTab(page);
+
+  assert.equal(hasClass(reverseTab, "focus"), false);
+  assert.equal(page.friendsTab.className, "native");
+  assert.equal(page.afterTab.className, "focus other");
+  assert.equal(reverseTab.getAttribute("href"), "/user/source/rev_friends");
+});
+
+test("does not create a highlight when no tab is highlighted", () => {
+  const page = createPage({ pathname: "/user/foo/rev_friends" });
+  page.friendsTab.className = "native";
+
+  const reverseTab = ensureReverseFriendsTab(page);
+
+  assert.equal(hasClass(page.friendsTab, "focus"), false);
+  assert.equal(hasClass(reverseTab, "focus"), false);
+});
+
 test("sets focus on the native friends tab on the friends page", () => {
   const page = createPage({ pathname: "/user/foo/friends/" });
 
@@ -278,6 +301,17 @@ test("sets focus on the reverse friends tab on the reverse friends page", () => 
   assert.equal(hasClass(page.friendsTab, "focus"), false);
   assert.equal(hasClass(reverseTab, "focus"), true);
   assert.equal(hasClass(reverseTab, "native"), true);
+});
+
+test("keeps another highlighted tab while correcting the reverse friends tab", () => {
+  const page = createPage({ pathname: "/user/foo/rev_friends" });
+  page.afterTab.className = "focus other";
+
+  const reverseTab = ensureReverseFriendsTab(page);
+
+  assert.equal(hasClass(page.friendsTab, "focus"), false);
+  assert.equal(hasClass(reverseTab, "focus"), true);
+  assert.equal(page.afterTab.className, "focus other");
 });
 
 test("is idempotent when run repeatedly", () => {
